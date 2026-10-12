@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashly | E-commerce analytics demo</title>
+<meta name="description" content="Dashly is a front-end portfolio demo of an e-commerce analytics dashboard. All data is fictional.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%232f5bea'/%3E%3Cpath d='M9 22V10h6a6 6 0 010 12z' fill='none' stroke='%23fff' stroke-width='2.4'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+<script src="script.js" defer></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-overview" viewBox="0 0 24 24"><path d="M3 3h8v8H3zM13 3h8v5h-8zM13 10h8v11h-8zM3 13h8v8H3z"/></symbol>
+  <symbol id="i-orders" viewBox="0 0 24 24"><path d="M6 2L4 6v14a2 2 0 002 2h12a2 2 0 002-2V6l-2-4zM4 6h16M16 10a4 4 0 01-8 0"/></symbol>
+  <symbol id="i-products" viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5v8l9 5 9-5zM3 8l9 5 9-5M12 13v8"/></symbol>
+  <symbol id="i-customers" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2M10 11a4 4 0 100-8 4 4 0 000 8M21 21v-2a4 4 0 00-3-3.9M16 3.1a4 4 0 010 7.8"/></symbol>
+  <symbol id="i-analytics" viewBox="0 0 24 24"><path d="M3 3v18h18M7 15l4-4 3 3 5-6"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 6h10M18 6h2M4 12h2M10 12h10M4 18h12M14 4v4M8 10v4M16 16v4"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.4 0"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <symbol id="i-panel" viewBox="0 0 24 24"><path d="M3 4h18v16H3zM9 4v16"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+  <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M3 7h16a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2zM3 7l2-3h12v3M16 14h2"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24"><path d="M20.6 13.4l-7.2 7.2a2 2 0 01-2.8 0L3 13V3h10l7.6 7.6a2 2 0 010 2.8zM7.5 7.5h.01"/></symbol>
+</svg>
+
+<a class="skip" href="#main">Skip to content</a>
+<div class="app">
+  <aside class="sidebar" id="sidebar" aria-label="Primary">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="#fff" stroke-width="3"><path d="M9 23V9h6a7 7 0 010 14z"/></svg></span>
+      <span class="brand-text">Dashly<small id="brandStore">Dashly Demo Store</small></span>
+    </div>
+    <nav class="nav" aria-label="Sections">
+      <a href="#overview"><svg class="ic"><use href="#i-overview"/></svg><span class="label">Overview</span></a>
+      <a href="#orders"><svg class="ic"><use href="#i-orders"/></svg><span class="label">Orders</span></a>
+      <a href="#products"><svg class="ic"><use href="#i-products"/></svg><span class="label">Products</span></a>
+      <a href="#customers"><svg class="ic"><use href="#i-customers"/></svg><span class="label">Customers</span></a>
+      <a href="#analytics"><svg class="ic"><use href="#i-analytics"/></svg><span class="label">Analytics</span></a>
+      <a href="#settings"><svg class="ic"><use href="#i-settings"/></svg><span class="label">Settings</span></a>
+    </nav>
+    <button class="nav-btn" id="collapseBtn" type="button" aria-pressed="false"><svg class="ic"><use href="#i-panel"/></svg><span class="label">Collapse sidebar</span></button>
+  </aside>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="content">
+    <header class="top">
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar"><svg class="ic"><use href="#i-menu"/></svg></button>
+      <div class="titles">
+        <h1 id="pageTitle" tabindex="-1">Overview</h1>
+        <p id="pageSub" class="muted"></p>
+      </div>
+      <label class="sr-only" for="rangeSel">Date range</label>
+      <select class="field range-sel" id="rangeSel">
+        <option value="7">Last 7 days</option>
+        <option value="30" selected>Last 30 days</option>
+        <option value="90">Last 90 days</option>
+      </select>
+      <div class="pop-wrap">
+        <button class="icon-btn" id="bellBtn" type="button" aria-label="Notifications" aria-expanded="false" aria-controls="notifs"><svg class="ic"><use href="#i-bell"/></svg><span class="dot" id="bellDot"></span></button>
+        <div class="popover" id="notifs" hidden>
+          <h2>Notifications</h2>
+          <ul>
+            <li>Order #DS-2048 is waiting for review.</li>
+            <li>Calm Ceramic Mug Set is low on stock.</li>
+            <li>Weekly revenue summary is ready.</li>
+          </ul>
+          <button class="btn sm" id="markRead" type="button">Mark all as read</button>
+        </div>
+      </div>
+      <div class="avatar" role="img" aria-label="Profile: Alex Rivera">AR</div>
+    </header>
+
+    <main id="main">
+      <p class="demo-note">Demo data: every figure, name and email here is fictional and for portfolio purposes only. Nothing is connected to a real store.</p>
+
+      <!-- OVERVIEW -->
+      <section class="view" id="view-overview" aria-labelledby="pageTitle">
+        <div class="kpis" id="kpis"></div>
+        <div class="row">
+          <article class="card">
+            <div class="card-head">
+              <h2>Revenue over time</h2>
+              <div class="seg" role="group" aria-label="Chart period">
+                <button type="button" data-period="daily" aria-pressed="true">Daily</button>
+                <button type="button" data-period="weekly" aria-pressed="false">Weekly</button>
+                <button type="button" data-period="monthly" aria-pressed="false">Monthly</button>
+              </div>
+            </div>
+            <div class="chart-box"><canvas id="salesChart" role="img" aria-label="Line chart of demo revenue over time"></canvas><p class="fallback" hidden>The chart library could not load. Check your connection and refresh to see charts.</p></div>
+          </article>
+          <article class="card">
+            <div class="card-head"><h2>Sales by category</h2></div>
+            <div class="chart-box"><canvas id="catChart" role="img" aria-label="Doughnut chart of demo sales by category"></canvas><p class="fallback" hidden>The chart library could not load. Check your connection and refresh to see charts.</p></div>
+          </article>
+        </div>
+        <article class="card">
+          <div class="card-head"><h2>Recent orders</h2><a class="btn sm" href="#orders">View all orders</a></div>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Order ID</th><th>Customer</th><th>Product</th><th>Date</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="recentBody"></tbody>
+          </table></div>
+        </article>
+      </section>
+
+      <!-- ORDERS -->
+      <section class="view" id="view-orders" hidden>
+        <article class="card">
+          <div class="toolbar">
+            <label class="sr-only" for="orderSearch">Search orders</label>
+            <input class="field grow" id="orderSearch" type="search" placeholder="Search by order ID or customer">
+            <label class="sr-only" for="orderStatus">Filter by status</label>
+            <select class="field" id="orderStatus"><option value="all">All statuses</option><option>Completed</option><option>Pending</option><option>Cancelled</option></select>
+            <label class="sr-only" for="orderSort">Sort orders</label>
+            <select class="field" id="orderSort"><option value="date-desc">Newest first</option><option value="date-asc">Oldest first</option><option value="amount-desc">Amount: high to low</option><option value="amount-asc">Amount: low to high</option></select>
+          </div>
+          <div class="table-wrap" id="ordersWrap"><table>
+            <thead><tr><th>Order ID</th><th>Customer</th><th>Product</th><th>Date</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="ordersBody"></tbody>
+          </table></div>
+          <div class="empty" id="ordersEmpty" hidden><h3>No orders match your search</h3><p class="muted">Try a different order ID or customer name, or reset the status filter.</p><button class="btn" id="resetOrders" type="button">Reset filters</button></div>
+          <div class="foot"><span class="muted" id="ordersCount" aria-live="polite"></span><button class="btn" id="loadMore" type="button">Load more orders</button></div>
+        </article>
+      </section>
+
+      <!-- PRODUCTS -->
+      <section class="view" id="view-products" hidden>
+        <article class="card">
+          <div class="toolbar">
+            <label class="sr-only" for="productSearch">Search products</label>
+            <input class="field grow" id="productSearch" type="search" placeholder="Search products">
+            <label class="sr-only" for="productCat">Filter by category</label>
+            <select class="field" id="productCat"><option value="all">All categories</option></select>
+            <button class="btn primary" id="addProductBtn" type="button">Add product</button>
+          </div>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Status</th></tr></thead>
+            <tbody id="productsBody"></tbody>
+          </table></div>
+          <div class="empty" id="productsEmpty" hidden><h3>No products found</h3><p class="muted">Adjust your search or add a new product.</p></div>
+        </article>
+      </section>
+
+      <!-- CUSTOMERS -->
+      <section class="view" id="view-customers" hidden>
+        <article class="card">
+          <div class="toolbar">
+            <label class="sr-only" for="customerSearch">Search customers</label>
+            <input class="field grow" id="customerSearch" type="search" placeholder="Search by name or email">
+          </div>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Customer</th><th>Email</th><th>Orders</th><th>Total spent</th><th>Status</th></tr></thead>
+            <tbody id="customersBody"></tbody>
+          </table></div>
+          <div class="empty" id="customersEmpty" hidden><h3>No customers found</h3><p class="muted">Try a different name or email.</p></div>
+        </article>
+      </section>
+
+      <!-- ANALYTICS -->
+      <section class="view" id="view-analytics" hidden>
+        <div class="toolbar plain">
+          <p class="muted grow">All values below are demonstration data.</p>
+          <label class="sr-only" for="rangeSel2">Date range</label>
+          <select class="field range-sel" id="rangeSel2"><option value="7">Last 7 days</option><option value="30" selected>Last 30 days</option><option value="90">Last 90 days</option></select>
+        </div>
+        <div class="grid3">
+          <article class="card"><div class="card-head"><h2>Revenue by category</h2></div><div class="chart-box"><canvas id="anCat" role="img" aria-label="Bar chart of demo revenue by category"></canvas><p class="fallback" hidden>The chart library could not load.</p></div></article>
+          <article class="card"><div class="card-head"><h2>Order status distribution</h2></div><div class="chart-box"><canvas id="anStatus" role="img" aria-label="Doughnut chart of demo order statuses"></canvas><p class="fallback" hidden>The chart library could not load.</p></div></article>
+          <article class="card"><div class="card-head"><h2>Best-selling products</h2></div><div class="chart-box"><canvas id="anBest" role="img" aria-label="Bar chart of demo best-selling products"></canvas><p class="fallback" hidden>The chart library could not load.</p></div></article>
+        </div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section class="view" id="view-settings" hidden>
+        <article class="card narrow">
+          <form id="settingsForm" novalidate>
+            <div class="fg"><label for="sName">Store name</label><input class="field" id="sName" name="sname" maxlength="40" aria-describedby="e-sName"><span class="err" id="e-sName"></span></div>
+            <div class="fg"><label for="sCur">Currency</label><select class="field" id="sCur" name="currency"><option value="USD">US dollar (USD)</option><option value="EUR">Euro (EUR)</option><option value="GBP">British pound (GBP)</option></select><span class="hint">Display only. Demo amounts are converted with fixed sample rates.</span></div>
+            <fieldset class="fg"><legend>Theme</legend>
+              <label class="radio"><input type="radio" name="theme" value="light"> Light</label>
+              <label class="radio"><input type="radio" name="theme" value="dark"> Dark</label>
+            </fieldset>
+            <button class="btn primary" type="submit">Save settings</button>
+          </form>
+        </article>
+      </section>
+    </main>
+  </div>
+</div>
+
+<dialog id="orderModal" aria-labelledby="orderModalTitle"><div class="modal-in">
+  <div class="card-head"><h2 id="orderModalTitle">Order details</h2><button class="icon-btn" type="button" data-close aria-label="Close order details"><svg class="ic"><use href="#i-x"/></svg></button></div>
+  <dl class="details" id="orderDetail"></dl>
+  <div class="actions"><button class="btn" type="button" data-close>Close</button></div>
+</div></dialog>
+
+<dialog id="productModal" aria-labelledby="productModalTitle"><div class="modal-in">
+  <div class="card-head"><h2 id="productModalTitle">Add product</h2><button class="icon-btn" type="button" data-close aria-label="Close add product form"><svg class="ic"><use href="#i-x"/></svg></button></div>
+  <form id="productForm" novalidate>
+    <div class="fg"><label for="pname">Product name</label><input class="field" id="pname" name="pname" maxlength="60" aria-describedby="e-pname"><span class="err" id="e-pname"></span></div>
+    <div class="fg"><label for="pcat">Category</label><select class="field" id="pcat" name="pcat" aria-describedby="e-pcat"><option value="">Choose a category</option></select><span class="err" id="e-pcat"></span></div>
+    <div class="two">
+      <div class="fg"><label for="pprice">Price (USD)</label><input class="field" id="pprice" name="pprice" type="number" step="0.01" min="0" inputmode="decimal" aria-describedby="e-pprice"><span class="err" id="e-pprice"></span></div>
+      <div class="fg"><label for="pstock">Stock quantity</label><input class="field" id="pstock" name="pstock" type="number" step="1" min="0" inputmode="numeric" aria-describedby="e-pstock"><span class="err" id="e-pstock"></span></div>
+    </div>
+    <div class="actions"><button class="btn" type="button" data-close>Cancel</button><button class="btn primary" type="submit">Add product</button></div>
+  </form>
+</div></dialog>
+
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+</body>
+</html>
